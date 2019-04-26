@@ -32,6 +32,6 @@ app.use(require("./routes/index"));
 app.use(require("./routes/user"));
 app.use(require("./routes/post"));
 
-app.listen(80, function(res, req) {
+app.listen(3000, function(res, req) {
   console.log("Server Started");
 });
