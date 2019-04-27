@@ -10,7 +10,7 @@ passport.use(
       secretOrKey: "badri"
     },
     (payload, done) => {
-      console.log(payload);
+      //console.log(payload);
       Users.findById(payload._id)
         .exec()
         .then(user => {

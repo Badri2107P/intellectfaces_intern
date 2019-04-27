@@ -21,7 +21,7 @@ router.get("/post", (req, res) => {
       }
     })
     .catch(err => {
-     // console.log(err);
+      // console.log(err);
       res.status(404).json({ message: "Post Not Added", error: err });
     });
 });
@@ -44,7 +44,7 @@ router.get("/post/:id", (req, res) => {
       }
     })
     .catch(err => {
-     // console.log(err);
+      // console.log(err);
       res.status(404).json({ message: "Post Not Added", error: err });
     });
 });
@@ -100,6 +100,9 @@ router.put(
         UpdatedFields[key] = req.body[key];
       }
     });
+    delete UpdatedFields.post_id;
+    delete UpdatedFields.posted_on;
+    delete UpdatedFields.author;
     UpdatedFields.updated_on = new Date();
     // console.log(UpdatedFields);
 
