@@ -25,13 +25,7 @@ router.get("/post", (req, res) => {
       res.status(404).json({ message: "Post Not Added", error: err });
     });
 });
-router.get("/posts", (req, res) => {
-  Post.findOne()
-    .sort("-Postid") // give me the max
-    .exec()
-    .then(member => res.status(200).json({ member: member.post_id }))
-    .catch(err => res.status(400).json({ error: err }));
-});
+
 
 router.get("/post/:id", (req, res) => {
   Post.find({ post_id: req.params.id })
