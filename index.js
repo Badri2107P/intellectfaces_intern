@@ -1,5 +1,6 @@
 var Express = require("express");
 var bodyParser = require("body-parser");
+
 var app = Express();
 
 app.use(bodyParser.json());
@@ -29,8 +30,8 @@ mongoose.connect(
 );
 
 app.use(require("./routes/index"));
-app.use(require("./routes/user"));
 app.use(require("./routes/post"));
+app.use(require("./routes/user"));
 
 app.listen(80, function(res, req) {
   console.log("Server Started");

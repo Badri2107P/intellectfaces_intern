@@ -2,15 +2,13 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
-  FirstName: String,
-  LastName: String,
-  UserName: String,
-  Email: String,
-  Password: String,
-  Role: String
+const UsersSchema = new Schema({
+  email: {
+    type: String,
+    required: true,
+    match: /[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?/
+  },
+  password: { type: String, required: true }
 });
 
-var User = mongoose.model("User", UserSchema);
-
-module.exports = User;
+module.exports = mongoose.model("Users", UsersSchema);
