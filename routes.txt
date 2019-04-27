@@ -1,0 +1,41 @@
+The Routes are 
+
+Login:
+request method : POST
+http://ec2-35-154-246-37.ap-south-1.compute.amazonaws.com:3000/login
+body:{email,password}
+result: It will generate an jwt which you need later, so copy it.
+
+signup:
+request method : POST
+http://ec2-35-154-246-37.ap-south-1.compute.amazonaws.com:3000/signup
+body:{email,password}
+
+View all post:
+request method : GET
+http://ec2-35-154-246-37.ap-south-1.compute.amazonaws.com:3000/post
+
+View post by id :
+request method : GET
+http://ec2-35-154-246-37.ap-south-1.compute.amazonaws.com:3000/post/:id
+here id starts from 1.
+
+Add new post :
+request method : POST
+http://ec2-35-154-246-37.ap-south-1.compute.amazonaws.com:3000/post/add
+head:{token:generated jwt when you login}
+body:{title:string,content:string,author:string,tags:array[]}
+
+
+update post :
+request method : PUT
+http://ec2-35-154-246-37.ap-south-1.compute.amazonaws.com:3000/post/:id
+head:{token:generated jwt when you login}
+body:{title:string || content:string || tags:array[]}
+you can update title,content,tags.
+
+Delete post:
+request method : DELETE
+http://ec2-35-154-246-37.ap-south-1.compute.amazonaws.com:3000/post/:id
+head:{token:generated jwt when you login}
+
