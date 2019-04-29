@@ -26,7 +26,6 @@ router.get("/post", (req, res) => {
     });
 });
 
-
 router.get("/post/:id", (req, res) => {
   Post.find({ post_id: req.params.id })
     .exec()
@@ -47,20 +46,22 @@ router.post(
   "/post/add",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const PostTemp = new Post({
-      post_id: postid++,
-      title: req.body.title,
-      content: req.body.content,
-      tags: req.body.tags,
-      author: req.body.author,
-      posted_on: new Date(),
-      updated_on: new Date()
-    });
-    PostTemp.save()
-      .then(res.status(200).json({ message: "Post Added" }))
-      .catch(err => {
-        res.status(404).json({ message: "Post Not Added", error: err });
+    if (!isEmpty(req.body)) {
+      const PostTemp = new Post({
+        post_id: postid++,
+        title: req.body.title,
+        content: req.body.content,
+        tags: req.body.tags,
+        author: req.body.author,
+        posted_on: new Date(),
+        updated_on: new Date()
       });
+      PostTemp.save()
+        .then(res.status(200).json({ message: "Post Added" }))
+        .catch(err => {
+          res.status(404).json({ message: "Post Not Added", error: err });
+        });
+    } else res.status(404).json({ message: "body has no values" });
   }
 );
 
@@ -88,32 +89,36 @@ router.put(
   "/post/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const UpdatedFields = {};
-    Object.keys(req.body).forEach(key => {
-      if (!isEmpty(req.body[key])) {
-        UpdatedFields[key] = req.body[key];
-      }
-    });
-    delete UpdatedFields.post_id;
-    delete UpdatedFields.posted_on;
-    delete UpdatedFields.author;
-    UpdatedFields.updated_on = new Date();
-    // console.log(UpdatedFields);
-
-    Post.updateOne({ post_id: req.params.id }, UpdatedFields)
-      .exec()
-      .then(result => {
-        if (result.nModified > 0) {
-          res.status(200).json({ message: "Post Updated" });
-        } else {
-          //   console.log(result);
-          res.status(404).json({ message: "Post Not Updated", error: result });
+    if (!isEmpty(req.body)) {
+      const UpdatedFields = {};
+      Object.keys(req.body).forEach(key => {
+        if (!isEmpty(req.body[key])) {
+          UpdatedFields[key] = req.body[key];
         }
-      })
-      .catch(err => {
-        //console.log(err);
-        res.status(404).json({ message: "Post Not Updated", error: err });
       });
+      delete UpdatedFields.post_id;
+      delete UpdatedFields.posted_on;
+      delete UpdatedFields.author;
+      UpdatedFields.updated_on = new Date();
+      // console.log(UpdatedFields);
+
+      Post.updateOne({ post_id: req.params.id }, UpdatedFields)
+        .exec()
+        .then(result => {
+          if (result.nModified > 0) {
+            res.status(200).json({ message: "Post Updated" });
+          } else {
+            //   console.log(result);
+            res
+              .status(404)
+              .json({ message: "Post Not Updated", error: result });
+          }
+        })
+        .catch(err => {
+          //console.log(err);
+          res.status(404).json({ message: "Post Not Updated", error: err });
+        });
+    } else res.status(404).json({ message: "body has no values" });
   }
 );
 
